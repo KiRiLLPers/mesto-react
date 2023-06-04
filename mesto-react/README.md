@@ -23,4 +23,4 @@
 11. Webpack.
 12. React
 
-[Ссылка на страницу "Mesto"]()
+[Ссылка на страницу "Mesto"](https://kirillpers.github.io/mesto-react/)
