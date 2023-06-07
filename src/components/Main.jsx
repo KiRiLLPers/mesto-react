@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../utils/api.js";
 import Card from "./Card.jsx";
 import ImagePopup from "./ImagePopup";
 
