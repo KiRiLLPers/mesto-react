@@ -9,43 +9,33 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(true);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(true);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(true);
-
-  const [isOpenAvatar, setOpenAvatar] = useState("");
-  const [isOpenProfile, setOpenProfile] = useState("");
-  const [isOpenCard, setOpenCard] = useState("");
-  const [isOpenImagePopup, setIsOpenImagePopup] = useState("");
-
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isOpenImagePopup, setIsOpenImagePopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
   const handleEditAvatarClick = () => {
-    if (isEditProfilePopupOpen) {
-      setOpenAvatar("popup_opened");
-    }
+    setEditAvatarPopupOpen(true);
   };
+
   const handleEditProfileClick = () => {
-    if (isAddPlacePopupOpen) {
-      setOpenProfile("popup_opened");
-    }
+    setEditProfilePopupOpen(true);
   };
+
   const handleAddPlaceClick = () => {
-    if (isEditAvatarPopupOpen) {
-      setOpenCard("popup_opened");
-    }
+    setAddPlacePopupOpen(true);
   };
 
   function handleCardClick(propsCard) {
-    setIsOpenImagePopup("popup_opened");
+    setIsOpenImagePopup(true);
     setSelectedCard(propsCard);
   }
-
   const closeAllPopups = () => {
-    setOpenAvatar("");
-    setOpenProfile("");
-    setOpenCard("");
-    setIsOpenImagePopup("");
+    setEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setIsOpenImagePopup(false);
   };
 
   return (
@@ -53,28 +43,22 @@ function App() {
       <Header />
       <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} />
       <Footer />
-      <PopupWithForm name={"profile"} title={"Редактировать профиль"} buttonText={"Сохранить"} isOpen={isOpenProfile} onClose={closeAllPopups}>
-        <fieldset className="form__profile-info">
-          <input type="text" className="form__item form__item_el_heading" id="heading" name="heading" placeholder="Введите Ваше имя" minLength={2} maxLength={40} required="" />
-          <span className="form__item-error heading-error" />
-          <input type="text" className="form__item form__item_el_subheading" id="subheading" name="subheading" placeholder="Ваша профессия" minLength={2} maxLength={200} required="" />
-          <span className="form__item-error subheading-error" />
-        </fieldset>
+      <PopupWithForm name={"profile"} title={"Редактировать профиль"} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+        <input type="text" className="form__item form__item_el_heading" id="heading" name="heading" placeholder="Введите Ваше имя" minLength={2} maxLength={40} required="" />
+        <span className="form__item-error heading-error" />
+        <input type="text" className="form__item form__item_el_subheading" id="subheading" name="subheading" placeholder="Ваша профессия" minLength={2} maxLength={200} required="" />
+        <span className="form__item-error subheading-error" />
       </PopupWithForm>
-      <PopupWithForm name={"cards"} title={"Новое место"} buttonText={"Создать"} isOpen={isOpenCard} onClose={closeAllPopups}>
-        <fieldset className="form__profile-info">
-          <input type="text" className="form__item form__item_el_place-name" id="place-name" name="name" placeholder="Название" minLength={2} maxLength={30} required="" />
-          <span className="form__item-error place-name-error" />
-          <input type="url" className="form__item form__item_el_url" id="url" name="link" placeholder="Ссылка на картинку" required="" />
-          <span className="form__item-error url-error" />
-        </fieldset>
+      <PopupWithForm name={"cards"} title={"Новое место"} buttonText={"Создать"} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+        <input type="text" className="form__item form__item_el_place-name" id="place-name" name="name" placeholder="Название" minLength={2} maxLength={30} required="" />
+        <span className="form__item-error place-name-error" />
+        <input type="url" className="form__item form__item_el_url" id="url" name="link" placeholder="Ссылка на картинку" required="" />
+        <span className="form__item-error url-error" />
       </PopupWithForm>
       <PopupWithForm name={"delete"} title={"Вы уверены?"} buttonText={"Да"} />
-      <PopupWithForm name={"avatar"} title={"Обновить аватар"} buttonText={"Сохранить"} isOpen={isOpenAvatar} onClose={closeAllPopups}>
-        <fieldset className="form__profile-info">
-          <input type="url" className="form__item form__item_el_url" id="avatar" name="link" placeholder="Ссылка на аватар" required="" />
-          <span className="form__item-error avatar-error" />
-        </fieldset>
+      <PopupWithForm name={"avatar"} title={"Обновить аватар"} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+        <input type="url" className="form__item form__item_el_url" id="avatar" name="link" placeholder="Ссылка на аватар" required="" />
+        <span className="form__item-error avatar-error" />
       </PopupWithForm>
       <ImagePopup onClose={closeAllPopups} selectedCard={selectedCard} isOpen={isOpenImagePopup} />
     </div>

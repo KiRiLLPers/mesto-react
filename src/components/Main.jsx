@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../utils/Api.js";
+import { api } from "../utils/api.js";
 import Card from "./Card.jsx";
 import ImagePopup from "./ImagePopup";
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
-  const [userName, setUserName] = useState();
-  const [userDescription, setUserDescription] = useState();
-  const [userAvatar, setUserAvatar] = useState();
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
