@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card.jsx";
 import ImagePopup from "./ImagePopup";
+import { api } from "../utils/api.js";
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
   const [userName, setUserName] = useState("");
