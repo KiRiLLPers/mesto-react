@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -14,6 +14,22 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isOpenImagePopup, setIsOpenImagePopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+
+  const handleCloseByEsc = useCallback((e) => {
+    if (e.key === "Escape") {
+      closeAllPopups();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isOpenImagePopup) {
+      document.addEventListener("keydown", handleCloseByEsc);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleCloseByEsc);
+    };
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isOpenImagePopup, handleCloseByEsc]);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);

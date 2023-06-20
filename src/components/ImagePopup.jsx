@@ -1,8 +1,13 @@
 import React from "react";
 
 const ImagePopup = ({ onClose, selectedCard, isOpen }) => {
+  const handleCloseByOverley = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
   return (
-    <div className={`popup popup-img ${isOpen ? "popup_opened" : ""}`}>
+    <div className={`popup popup-img ${isOpen ? "popup_opened" : ""}`} onClick={handleCloseByOverley}>
       <div className="popup__container-image">
         <figure className="popup__figure">
           <img src={selectedCard.link} alt={selectedCard.name} className="popup__image" />

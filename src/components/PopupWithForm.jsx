@@ -1,9 +1,14 @@
 import React from "react";
 
 const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children }) => {
+  const handleCloseByOverley = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
   return (
     <>
-      <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
+      <div className={`popup ${isOpen ? "popup_opened" : ""}`} onClick={handleCloseByOverley}>
         <div className="popup__container">
           <form className={`form popup__form popup-form-${name}`} name={`form-${name}`} noValidate="">
             <h2 className="form__heading">{title}</h2>
