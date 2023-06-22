@@ -48,7 +48,7 @@ class Api {
     });
   }
 
-  setUSerInfo(data) {
+  setUserInfo(data) {
     return this._request(`/users/me`, {
       method: "PATCH",
       headers: this._headers,
@@ -69,7 +69,7 @@ class Api {
     });
   }
 
-  hendlerLikeCard(cardId) {
+  handlerLikeCard(cardId) {
     return this._request(`/cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
@@ -85,6 +85,10 @@ class Api {
         authorization: this._headers.authorization,
       },
     });
+  }
+
+  changeLikeCardStatus(cardId, noLiked) {
+    return noLiked ? this.handlerLikeCard(cardId) : this.deleteLikeCard(cardId);
   }
 }
 
