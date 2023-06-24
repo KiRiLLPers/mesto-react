@@ -7,28 +7,16 @@ const useForm = () => {
   const [isValid, setIsValid] = useState(false);
 
   const handleChangeInput = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    const errorsMessages = e.target.validationMessage;
-    const valid = e.target.validity.valid;
-    const form = e.target.form;
+    setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
 
-    setValues((values) => {
-      return { ...values, [name]: value };
-    });
+    setErrors((errors) => ({ ...errors, [e.target.name]: e.target.validationMessage }));
 
-    setErrors((errors) => {
-      return { ...errors, [name]: errorsMessages };
-    });
+    setisInputValid(() => ({ ...e.target.validity.valid, [e.target.name]: e.target.validity.valid }));
 
-    setisInputValid((validInputs) => {
-      return { ...valid, [name]: valid };
-    });
-
-    setIsValid(form.checkValidity());
+    setIsValid(e.target.form.checkValidity());
   };
 
-  const resetForm = useCallback((e) => {
+  const resetForm = useCallback(() => {
     setValues({});
     setErrors({});
     setisInputValid({});
