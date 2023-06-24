@@ -6,6 +6,8 @@ const ImagePopup = ({ onClose, selectedCard, isOpen }) => {
       onClose();
     }
   };
+
+  
   return (
     <div className={`popup popup-img ${isOpen ? "popup_opened" : ""}`} onClick={handleCloseByOverley}>
       <div className="popup__container-image">

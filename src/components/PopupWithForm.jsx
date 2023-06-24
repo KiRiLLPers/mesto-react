@@ -1,19 +1,20 @@
 import React from "react";
 
-const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children, onSubmit, isLoading }) => {
+const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children, onSubmit, isLoading, isValid = true }) => {
   const handleCloseByOverley = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
+
   return (
     <>
       <div className={`popup ${isOpen ? "popup_opened" : ""}`} onClick={handleCloseByOverley}>
         <div className="popup__container">
-          <form className={`form popup__form popup-form-${name}`} name={`form-${name}`} noValidate="" onSubmit={onSubmit}>
+          <form className={`form popup__form popup-form-${name}`} name={`form-${name}`} noValidate onSubmit={onSubmit}>
             <h2 className="form__heading">{title}</h2>
             <fieldset className="form__profile-info">{children}</fieldset>
-            <button type="submit" className="form__btn">
+            <button type="submit" className={`form__btn ${!isValid && "form__btn_inactive"}`} disabled={(!isValid && true) || (isLoading && true)}>
               {isLoading ? "Секундочку..." : buttonText || "Сохранить"}
             </button>
           </form>

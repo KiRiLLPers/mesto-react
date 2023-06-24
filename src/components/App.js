@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -28,36 +28,17 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const handleCloseByEsc = useCallback((e) => {
-    if (e.key === "Escape") {
-      closeAllPopups();
-    }
-  }, []);
-
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((user) => setCurrentUser(user))
-      .catch(console.error);
-
-    api
-      .getInitialCards()
-      .then((cards) => {
+    Promise.all([api.getInitialCards(), api.getUserInfo()])
+      .then(([cards, user]) => {
         cards.forEach((card) => {
-          card.myProfileId = currentUser._id;
+          card.myProfileId = user._id;
         });
+        setCurrentUser(user);
         setCards(cards);
       })
       .catch(console.error);
-
-    if (isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isOpenImagePopup || isDeletePopupOpen) {
-      document.addEventListener("keydown", handleCloseByEsc);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleCloseByEsc);
-    };
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isOpenImagePopup, isDeletePopupOpen, handleCloseByEsc, currentUser._id]);
+  }, []);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -79,11 +60,12 @@ function App() {
   const handleUpdateUser = (data) => {
     setLoading(true);
 
-    api.setUserInfo(data).catch(console.error);
-
     api
-      .getUserInfo()
-      .then((user) => setCurrentUser(user))
+      .setUserInfo(data)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
@@ -92,17 +74,21 @@ function App() {
     setLoading(true);
     api
       .setUserAvatar(data)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };
 
   const handleAddPlaceSubmit = (data) => {
     setLoading(true);
-    api.addNewCard(data).catch(console.error);
     api
-      .getInitialCards()
-      .then((cards) => {
-        setCards([...cards]);
+      .addNewCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -112,6 +98,7 @@ function App() {
     setIsOpenImagePopup(true);
     setSelectedCard(propsCard);
   }
+
   const closeAllPopups = () => {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
