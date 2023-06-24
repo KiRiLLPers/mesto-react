@@ -5,14 +5,14 @@ import useForm from "../hooks/useForm";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
   const currentUser = useContext(CurrentUserContext);
-  const { values, errors, isInputValid, isValid, handleChangeInput, resetForm } = useForm();
+  const { errors, isInputValid, isValid, handleChangeInput, resetForm } = useForm();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   function handleChangeName(e) {
     handleChangeInput(e);
@@ -27,12 +27,10 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
   function handleSubmit(e) {
     e.preventDefault();
 
-    onUpdateUser(
-      {
-        heading: name,
-        subheading: description,
-      }
-    );
+    onUpdateUser({
+      heading: name,
+      subheading: description,
+    });
   }
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
         minLength={2}
         maxLength={40}
         required
-        value={values.heading ? values.heading : currentUser.name || ""}
+        value={name || ""}
         disabled={isLoading}
         onChange={handleChangeName}
       />
@@ -66,7 +64,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
         minLength={2}
         maxLength={200}
         required
-        value={values.subheading ? values.subheading : currentUser.about || ""}
+        value={description || ""}
         disabled={isLoading}
         onChange={handleChangeDescription}
       />

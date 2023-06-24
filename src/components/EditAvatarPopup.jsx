@@ -5,14 +5,12 @@ import useForm from "../hooks/useForm";
 const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   const inputRef = useRef("");
   const { errors, isInputValid, isValid, handleChangeInput, resetForm } = useForm();
+
   function handleSubmit(e) {
     e.preventDefault();
-
-    onUpdateAvatar(
-      {
-        link: inputRef.current.value,
-      }
-    );
+    onUpdateAvatar({
+      link: inputRef.current.value,
+    });
 
     inputRef.current.value = "";
   }
@@ -21,13 +19,13 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
     if (!isOpen) {
       resetForm();
       inputRef.current.value = "";
-
     }
   }, [isOpen, resetForm]);
 
   const onCloseWithResetFormAvatarPopup = () => {
     onClose();
   };
+
   return (
     <PopupWithForm name={"avatar"} title={"Обновить аватар"} isOpen={isOpen} onClose={onCloseWithResetFormAvatarPopup} onSubmit={handleSubmit} isLoading={isLoading} isValid={isValid}>
       <input
