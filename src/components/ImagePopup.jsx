@@ -1,4 +1,5 @@
 import React from "react";
+import useClosePopupByEsc from "../hooks/useClosePopupByEsc";
 
 const ImagePopup = ({ onClose, selectedCard, isOpen }) => {
   const handleCloseByOverley = (e) => {
@@ -7,7 +8,8 @@ const ImagePopup = ({ onClose, selectedCard, isOpen }) => {
     }
   };
 
-  
+  useClosePopupByEsc(isOpen, onClose);
+
   return (
     <div className={`popup popup-img ${isOpen ? "popup_opened" : ""}`} onClick={handleCloseByOverley}>
       <div className="popup__container-image">

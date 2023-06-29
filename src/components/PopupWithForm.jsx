@@ -1,4 +1,6 @@
 import React from "react";
+import CircularIndeterminate from "./CircularIndeterminate";
+import useClosePopupByEsc from "../hooks/useClosePopupByEsc";
 
 const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children, onSubmit, isLoading, isValid = true }) => {
   const handleCloseByOverley = (e) => {
@@ -6,6 +8,8 @@ const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children, onS
       onClose();
     }
   };
+
+  useClosePopupByEsc(isOpen, onClose);
 
   return (
     <>
@@ -15,7 +19,7 @@ const PopupWithForm = ({ title, name, isOpen, buttonText, onClose, children, onS
             <h2 className="form__heading">{title}</h2>
             <fieldset className="form__profile-info">{children}</fieldset>
             <button type="submit" className={`form__btn ${!isValid && "form__btn_inactive"}`} disabled={(!isValid && true) || (isLoading && true)}>
-              {isLoading ? "Секундочку..." : buttonText || "Сохранить"}
+              {isLoading ? <CircularIndeterminate /> : buttonText || "Сохранить"}
             </button>
           </form>
           <button type="button" className="popup__close-btn" onClick={onClose} />
